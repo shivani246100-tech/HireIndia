@@ -1,40 +1,58 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"
-  url = env("DATABASE_URL") }
-model User { id String @id @default(cuid())
-  name String
-  email String @unique
-  password String
-  role String @default("SEEKER")
-  plan String @default("FREE")
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String        @id @default(cuid())
+  name      String
+  email     String        @unique
+  password  String
+  role      String        @default("SEEKER")
+  plan      String        @default("FREE")
   resumeUrl String?
-  jobs Job[]
-  apps Application[]
-  createdAt DateTime @default(now()) }
-model Job { id String @id @default(cuid())
-  title String
-  company String
-  location String
-  mode String
-  minExp Int @default(0)
-  salary Int
-  skills String
+  jobs      Job[]
+  apps      Application[]
+  createdAt DateTime      @default(now())
+}
+
+model Job {
+  id          String        @id @default(cuid())
+  title       String
+  company     String
+  location    String
+  mode        String
+  minExp      Int           @default(0)
+  salary      Int
+  skills      String
   description String
-  postedBy User @relation(fields:[postedById], references:[id])
-  postedById String
-  apps Application[]
-  createdAt DateTime @default(now()) }
-model Application { id String @id @default(cuid())
-  user User @relation(fields:[userId], references:[id])
-  userId String
-  job Job @relation(fields:[jobId], references:[id])
-  jobId String
+  postedBy    User          @relation(fields: [postedById], references: [id])
+  postedById  String
+  apps        Application[]
+  createdAt   DateTime      @default(now())
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     String
   createdAt DateTime @default(now())
-  @@unique([userId, jobId]) }
-model Payment { id String @id @default(cuid())
-  userId String
-  orderId String @unique
+
+  @@unique([userId, jobId])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  userId    String
+  orderId   String   @unique
   paymentId String?
-  amount Int
-  status String @default("CREATED")
-  createdAt DateTime @default(now()) }
+  amount    Int
+  status    String   @default("CREATED")
+  createdAt DateTime @default(now())
+}
