@@ -1,0 +1,14 @@
+:root{--pri:#0e8f6e;--soft:#e3f5ee;--ink:#1c2b27;--mut:#62736d;--line:#dde5e2;--acc:#ff7a2f}
+*{box-sizing:border-box}body{margin:0;background:#f4f6f5;color:var(--ink);font:15px/1.5 system-ui,"Noto Sans Devanagari",sans-serif}
+a{color:inherit;text-decoration:none}.w{max-width:1100px;margin:auto;padding:0 16px}
+header{background:#fff;border-bottom:1px solid var(--line)}header .w{display:flex;align-items:center;gap:16px;height:60px}
+.logo{font-weight:800;font-size:24px;color:var(--pri)}.logo b{color:var(--acc)}.sp{flex:1}
+.btn{border:1.5px solid var(--pri);color:var(--pri);background:#fff;padding:7px 18px;border-radius:20px;font-weight:600;cursor:pointer;font:inherit}
+.btn.f{background:var(--pri);color:#fff}
+.hero{background:var(--soft);padding:36px 0;text-align:center}
+.s{display:flex;flex-wrap:wrap;gap:8px;max-width:760px;margin:auto}
+input,select,textarea{padding:11px;border:1px solid var(--line);border-radius:8px;font:inherit;flex:1;min-width:140px;width:100%}.s input{width:auto}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin:12px 0}
+.card h3{margin:0}.m{color:var(--mut);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;margin:6px 0}
+.t span{background:var(--soft);color:var(--pri);padding:2px 10px;border-radius:12px;font-size:12px;margin-right:6px}
+form.col{display:grid;gap:10px;max-width:460px;margin:30px auto}
