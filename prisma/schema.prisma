@@ -23,6 +23,7 @@ model User {
   jobs       Job[]
   apps       Application[]
   saved      SavedJob[]
+  reports    Report[]
   createdAt  DateTime      @default(now())
 }
 
@@ -37,10 +38,12 @@ model Job {
   skills      String
   description String
   status      String        @default("APPROVED")
+  expiresAt   DateTime?
   postedBy    User          @relation(fields: [postedById], references: [id])
   postedById  String
   apps        Application[]
   saved       SavedJob[]
+  reports     Report[]
   createdAt   DateTime      @default(now())
 }
 
@@ -62,6 +65,18 @@ model SavedJob {
   userId String
   job    Job    @relation(fields: [jobId], references: [id])
   jobId  String
+
+  @@unique([userId, jobId])
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     String
+  reason    String
+  createdAt DateTime @default(now())
 
   @@unique([userId, jobId])
 }
