@@ -11,6 +11,7 @@ export default async function Home({ searchParams: sp }) {
   const q = sp.q || "", loc = sp.loc || "", exp = sp.exp || "", sal = +sp.sal || 0, sort = sp.sort || "new";
   const modes = [].concat(sp.mode || []);
   const where = { AND: [
+    { status: "APPROVED" },
     q ? { OR: [{ title: { contains: q, mode: "insensitive" } }, { company: { contains: q, mode: "insensitive" } }, { skills: { contains: q, mode: "insensitive" } }, { description: { contains: q, mode: "insensitive" } }] } : {},
     loc ? { location: { contains: loc, mode: "insensitive" } } : {},
     exp !== "" ? { minExp: { lte: +exp } } : {},
@@ -18,7 +19,7 @@ export default async function Home({ searchParams: sp }) {
     sal ? { salary: { gte: sal } } : {} ] };
   const [jobs, cos] = await Promise.all([
     db.job.findMany({ where, orderBy: sort === "sal" ? { salary: "desc" } : { createdAt: "desc" }, take: 50 }),
-    db.job.groupBy({ by: ["company"], _count: { _all: true }, orderBy: { _count: { company: "desc" } }, take: 8 }) ]);
+    db.job.groupBy({ where: { status: "APPROVED" }, by: ["company"], _count: { _all: true }, orderBy: { _count: { company: "desc" } }, take: 8 }) ]);
   const mname = m => (tr(lang, "m_" + m) === "m_" + m ? m : tr(lang, "m_" + m));
   return (<>
     <section className="hero"><div className="w"><h1>{t("h1")}</h1>
@@ -37,7 +38,7 @@ export default async function Home({ searchParams: sp }) {
           <h4>{t("sort")}</h4><select name="sort" defaultValue={sort}><option value="new">{t("s_new")}</option><option value="sal">{t("s_sal")}</option></select>
           <button className="btn f">{t("apply_f")}</button></form>
         <div>{jobs.length === 0 && <div className="card">{t("none")}</div>}
-          {jobs.map(j => (<div className="card" key={j.id} style={{ marginTop: 0 }}><h3>{j.title}</h3><div>{j.company}</div>
+          {jobs.map(j => (<div className="card" key={j.id} style={{ marginTop: 0 }}><h3><Link href={`/jobs/${j.id}`}>{j.title}</Link></h3><div>{j.company}</div>
             <div className="m"><span>💼 {j.minExp}+ {t("yrs")}</span><span>₹ {j.salary} LPA</span><span>📍 {j.location} ({mname(j.mode)})</span></div>
             <p>{j.description}</p><div className="t">{j.skills.split(",").map(s => <span key={s}>{s.trim()}</span>)}</div><p><Apply id={j.id} /></p></div>))}</div>
       </div></main></>);
