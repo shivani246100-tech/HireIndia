@@ -5,6 +5,6 @@ export async function POST(req) {
   if (!u) return Response.json({ error: "e_login" }, { status: 401 });
   const b = await req.json();
   const c = (v, n) => String(v || "").slice(0, n);
-  await db.user.update({ where: { id: u.id }, data: { phone: c(b.phone, 20), city: c(b.city, 60), skills: c(b.skills, 300), education: c(b.education, 200), experience: c(b.experience, 1000) } });
+  await db.user.update({ where: { id: u.id }, data: { phone: c(b.phone, 20), city: c(b.city, 60), skills: c(b.skills, 300), education: c(b.education, 200), experience: c(b.experience, 1000), visible: b.visible === "on" } });
   return Response.json({ ok: true });
 }
