@@ -11,6 +11,17 @@ export function Save({ id, saved }) {
     setS((await x.json()).saved); r.refresh();
   }}>{s ? t("saved") : t("save")}</button>;
 }
+export function Report({ id }) {
+  const t = useT(), [m, setM] = useState(""), [open, setOpen] = useState(false);
+  if (!open) return <button className="btn" onClick={() => setOpen(true)}>🚩 {t("report")}</button>;
+  return (<span style={{ display: "inline-flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+    <select id={"rr" + id} style={{ minWidth: 150, width: "auto" }}><option value="FAKE">{t("rep_fake")}</option><option value="MONEY">{t("rep_money")}</option><option value="OTHER">{t("rep_other")}</option></select>
+    <button className="btn" onClick={async () => {
+      const x = await post("/api/report", { jobId: id, reason: document.getElementById("rr" + id).value });
+      if (x.status === 401) return (location.href = "/login");
+      const d = await x.json(); setM(d.ok ? "reported" : d.error);
+    }}>{t("report")}</button>{m && <span>{t(m)}</span>}</span>);
+}
 export function Approve({ id }) {
   const t = useT(), r = useRouter();
   const go = async st => { await post("/api/admin", { id, status: st }, "PATCH"); r.refresh(); };
