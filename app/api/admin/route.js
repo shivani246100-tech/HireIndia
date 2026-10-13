@@ -6,6 +6,7 @@ export async function DELETE(req) {
   const { id } = await req.json();
   await db.application.deleteMany({ where: { jobId: id } });
   await db.savedJob.deleteMany({ where: { jobId: id } });
+  await db.report.deleteMany({ where: { jobId: id } });
   await db.job.delete({ where: { id } });
   return Response.json({ ok: true });
 }
