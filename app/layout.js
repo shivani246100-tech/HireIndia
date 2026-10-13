@@ -18,6 +18,7 @@ export default async function L({ children }) {
       <Toggle />
       {u?.role === "ADMIN" && <Link href="/admin">Admin</Link>}
       <Link href="/employer">{t("emp")}</Link>
+      {(u?.role === "EMPLOYER" || u?.role === "ADMIN") && <Link href="/search">{t("find_t")}</Link>}
       {u?.role === "EMPLOYER" && <Link href="/dashboard">{t("nav_dash")}</Link>}
       {u && <Link href="/profile">{t("nav_prof")}</Link>}
       {u ? <><span>{u.name}</span><Out /></> : <Link className="btn f" href="/login">{t("login")}</Link>}
