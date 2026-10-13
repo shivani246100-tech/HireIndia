@@ -19,7 +19,7 @@ hi: {
  privacy: ["प्राइवेसी पॉलिसी", [
   "हम कौन-सी जानकारी लेते हैं: नाम, ईमेल, मोबाइल नंबर, शहर, स्किल्स, शिक्षा, अनुभव का विवरण और आपका अपलोड किया रिज्यूमे।",
   "इसका उपयोग: आपका अकाउंट चलाने, आवेदन भेजने और नियोक्ताओं को आपकी प्रोफाइल दिखाने के लिए।",
-  "किसे दिखती है: जिस कंपनी की जॉब पर आप आवेदन करते हैं, सिर्फ़ उसे आपकी प्रोफाइल और रिज्यूमे दिखता है। हम आपका डेटा बेचते नहीं हैं।",
+  "किसे दिखती है: जिस कंपनी की जॉब पर आप आवेदन करते हैं, उसे आपकी प्रोफाइल और रिज्यूमे दिखता है। अगर आप प्रोफाइल में \"नियोक्ता मुझे खोज सकें\" चुनते हैं, तो PRO नियोक्ता भी आपका नाम, संपर्क, स्किल्स और रिज्यूमे देख सकते हैं। आप इसे कभी भी बंद कर सकते हैं। हम आपका डेटा बेचते नहीं हैं।",
   "रिज्यूमे के लिंक: आपका रिज्यूमे एक लिंक पर सेव होता है। जिसके पास वह सीधा लिंक हो, वह उसे खोल सकता है। इसलिए रिज्यूमे में आधार, बैंक या पासवर्ड जैसी संवेदनशील जानकारी न डालें।",
   "पेमेंट: पेमेंट Razorpay के ज़रिए होता है। हम आपके कार्ड या बैंक की जानकारी अपने पास नहीं रखते।",
   "कुकीज़: हम सिर्फ़ लॉगिन बनाए रखने और भाषा याद रखने के लिए कुकी इस्तेमाल करते हैं।",
@@ -56,7 +56,7 @@ en: {
  privacy: ["Privacy Policy", [
   "What we collect: name, email, mobile number, city, skills, education, work experience details and the resume you upload.",
   "How we use it: to run your account, send applications and show your profile to employers.",
-  "Who sees it: only the company whose job you apply to can see your profile and resume. We do not sell your data.",
+  "Who sees it: the company whose job you apply to can see your profile and resume. If you choose \"Let employers find me\" in your profile, PRO employers can also see your name, contact, skills and resume. You can turn this off anytime. We do not sell your data.",
   "Resume links: your resume is saved at a link. Anyone who has the direct link can open it, so do not put sensitive details such as ID numbers, bank details or passwords in your resume.",
   "Payments: payments are processed by Razorpay. We do not store your card or bank details.",
   "Cookies: we use cookies only to keep you logged in and remember your language.",
