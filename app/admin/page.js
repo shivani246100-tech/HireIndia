@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { getUser } from "@/lib/auth";
@@ -10,14 +11,18 @@ export default async function Admin() {
   const u = await getUser();
   if (!u || u.role !== "ADMIN") redirect("/login");
   const t = k => tr(cookies().get("lang")?.value === "en" ? "en" : "hi", k);
-  const [users, jobs, pays, apps] = await Promise.all([
+  const [users, jobs, pays, apps, reports] = await Promise.all([
     db.user.findMany({ orderBy: { createdAt: "desc" }, take: 100 }),
     db.job.findMany({ orderBy: { createdAt: "desc" }, take: 100, include: { _count: { select: { apps: true } } } }),
     db.payment.findMany({ orderBy: { createdAt: "desc" }, take: 100 }),
-    db.application.count() ]);
+    db.application.count(),
+    db.report.findMany({ orderBy: { createdAt: "desc" }, take: 50, include: { job: true, user: true } }) ]);
   const rev = pays.filter(p => p.status === "PAID").reduce((a, p) => a + p.amount, 0) / 100;
   return (<main className="w"><h2>{t("ad_t")}</h2>
-    <div className="card">👤 {t("ad_users")}: <b>{users.length}</b> · 💼 {t("ad_jobs")}: <b>{jobs.length}</b> · 📨 {t("ad_apps")}: <b>{apps}</b> · ₹ {t("ad_rev")}: <b>{rev}</b></div>
+    <div className="card">👤 {t("ad_users")}: <b>{users.length}</b> · 💼 {t("ad_jobs")}: <b>{jobs.length}</b> · 📨 {t("ad_apps")}: <b>{apps}</b> · 🚩 {t("ad_reports")}: <b>{reports.length}</b> · ₹ {t("ad_rev")}: <b>{rev}</b></div>
+    {reports.length > 0 && <><h3>🚩 {t("ad_reports")}</h3><div className="card ov"><table><tbody>
+      <tr><th>{t("ad_jobs")}</th><th>{t("reason")}</th><th>{t("email")}</th></tr>
+      {reports.map(r => <tr key={r.id}><td><Link href={`/jobs/${r.job.id}`} style={{ color: "var(--pri)" }}>{r.job.title}</Link> · {r.job.company}</td><td>{t("rep_" + r.reason.toLowerCase())}</td><td>{r.user.email}</td></tr>)}</tbody></table></div></>}
     <h3>{t("ad_jobs")}</h3><div className="card ov"><table><tbody>
       {jobs.map(j => <tr key={j.id}><td>{j.title}</td><td>{j.company}</td><td>{j.location}</td><td>📨 {j._count.apps}</td><td>{j.status}</td><td><Approve id={j.id} /></td><td><Del id={j.id} /></td></tr>)}</tbody></table></div>
     <h3>{t("ad_users")}</h3><div className="card ov"><table><tbody>
