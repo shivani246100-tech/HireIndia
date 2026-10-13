@@ -5,6 +5,7 @@ import { getUser } from "@/lib/auth";
 import { tr } from "@/lib/i18n";
 import { LangProvider, Toggle } from "@/components/Lang";
 import Out from "@/components/Out";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata = { title: "HireIndia – Jobs | नौकरी", description: "India's job portal" };
 const F = {
   hi: { about: "हमारे बारे में", contact: "संपर्क करें", privacy: "प्राइवेसी पॉलिसी", terms: "नियम व शर्तें", refund: "रिफंड पॉलिसी" },
@@ -25,5 +26,6 @@ export default async function L({ children }) {
     </div></header>{children}
     <footer><div className="w"><span>© HireIndia</span>
       {Object.keys(F[lang]).map(k => <Link key={k} href={`/info/${k}`}>{F[lang][k]}</Link>)}</div></footer>
+    <SpeedInsights />
   </LangProvider></body></html>);
 }
