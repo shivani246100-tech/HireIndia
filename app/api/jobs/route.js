@@ -6,6 +6,7 @@ export async function POST(req) {
   if (u.role === "EMPLOYER" && u.plan !== "PRO" && (await db.job.count({ where: { postedById: u.id } })) >= 1)
     return Response.json({ error: "e_free" });
   const b = await req.json();
-  await db.job.create({ data: { title: b.title, company: b.company, location: b.location, mode: b.mode, minExp: +b.minExp || 0, salary: +b.salary || 0, skills: b.skills, description: b.description, postedById: u.id, status: u.role === "ADMIN" ? "APPROVED" : "PENDING" } });
+  const exp = b.expiresAt ? new Date(b.expiresAt + "T23:59:59") : null;
+  await db.job.create({ data: { title: b.title, company: b.company, location: b.location, mode: b.mode, minExp: +b.minExp || 0, salary: +b.salary || 0, skills: b.skills, description: b.description, expiresAt: exp, postedById: u.id, status: u.role === "ADMIN" ? "APPROVED" : "PENDING" } });
   return Response.json({ ok: true });
 }
