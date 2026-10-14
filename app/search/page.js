@@ -4,13 +4,14 @@ import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import { tr } from "@/lib/i18n";
+import { planInfo } from "@/lib/plans";
 export const dynamic = "force-dynamic";
 export default async function Search({ searchParams: sp }) {
   const t = k => tr(cookies().get("lang")?.value === "en" ? "en" : "hi", k);
   const u = await getUser();
   if (!u) redirect("/login");
-  const ok = u.role === "ADMIN" || (u.role === "EMPLOYER" && u.plan === "PRO");
-  if (!ok) return (<main className="w"><div className="card"><h3>{t("find_t")}</h3><p>{t("need_pro")}</p><Link className="btn f" href="/employer">{t("buy")}</Link></div></main>);
+  const ok = u.role === "ADMIN" || (u.role === "EMPLOYER" && planInfo(u).active);
+  if (!ok) return (<main className="w"><div className="card"><h3>{t("find_t")}</h3><p>{t("need_pro")}</p><Link className="btn f" href="/pricing">{t("nav_plans")}</Link></div></main>);
   const q = sp.q || "", city = sp.city || "", page = Math.max(1, +sp.page || 1), PER = 20;
   const where = { role: "SEEKER", visible: true, AND: [
     q ? { OR: [{ skills: { contains: q, mode: "insensitive" } }, { experience: { contains: q, mode: "insensitive" } }, { education: { contains: q, mode: "insensitive" } }] } : {},
