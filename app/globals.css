@@ -41,3 +41,6 @@ footer .w{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}foo
 body{min-height:100vh;display:flex;flex-direction:column}body>main,body>section,body>div:not(.w){flex:0 0 auto}
 body>main{flex:1 0 auto}footer{margin-top:auto}
 .s select{border:0;border-right:1px solid var(--line)!important;background:#fff;outline:0}
+form.col{width:100%;max-width:460px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 4px 18px rgba(10,40,30,.07)}
+form.col h2{margin:0 0 6px}
+form.col a{color:var(--pri);font-weight:500}
