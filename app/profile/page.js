@@ -6,6 +6,7 @@ import { getUser } from "@/lib/auth";
 import { tr } from "@/lib/i18n";
 import Upload from "@/components/Upload";
 import ProfileEdit from "@/components/ProfileEdit";
+import DeleteAccount from "@/components/DeleteAccount";
 export const dynamic = "force-dynamic";
 export default async function Profile() {
   const u = await getUser();
@@ -25,5 +26,6 @@ export default async function Profile() {
     {apps.map(a => <div className="card" key={a.id}><Link href={`/jobs/${a.job.id}`}><b>{a.job.title}</b></Link> · {a.job.company}
       <div className="m"><span>📍 {a.job.location}</span><span>{a.createdAt.toLocaleDateString("en-IN")}</span><span className="t"><span>{t("s_" + a.status)}</span></span></div></div>)}
     <h3>{t("saved_jobs")} ({saved.length})</h3>
-    {saved.map(s => <div className="card" key={s.id}><Link href={`/jobs/${s.job.id}`}><b>{s.job.title}</b></Link> · {s.job.company}<div className="m"><span>📍 {s.job.location}</span></div></div>)}</main>);
+    {saved.map(s => <div className="card" key={s.id}><Link href={`/jobs/${s.job.id}`}><b>{s.job.title}</b></Link> · {s.job.company}<div className="m"><span>📍 {s.job.location}</span></div></div>)}
+    {u.role !== "ADMIN" && <DeleteAccount />}</main>);
 }
