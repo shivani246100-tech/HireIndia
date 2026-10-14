@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { tr } from "@/lib/i18n";
 import Apply from "@/components/Apply";
 export const dynamic = "force-dynamic";
-const CATS = [["Software", "c_it"], ["Sales", "c_sales"], ["Marketing", "c_mkt"], ["Finance", "c_fin"], ["HR", "c_hr"], ["Design", "c_design"], ["Data", "c_data"], ["Operations", "c_ops"]];
+const TILES = [["/?mode=REMOTE", "🏠", "cat_remote"], ["/?exp=0", "🎓", "cat_fresher"], ["/?q=Software", "💻", "c_it"], ["/?q=Sales", "🤝", "c_sales"], ["/?q=Marketing", "📣", "c_mkt"], ["/?q=Finance", "₹", "c_fin"], ["/?q=HR", "👥", "c_hr"], ["/?q=Design", "🎨", "c_design"], ["/?q=Data", "📊", "c_data"], ["/?q=Operations", "⚙️", "c_ops"]];
 export default async function Home({ searchParams: sp }) {
   const lang = cookies().get("lang")?.value === "en" ? "en" : "hi";
   const t = k => tr(lang, k);
@@ -19,22 +19,24 @@ export default async function Home({ searchParams: sp }) {
     exp !== "" ? { minExp: { lte: +exp } } : {},
     modes.length ? { mode: { in: modes } } : {},
     sal ? { salary: { gte: sal } } : {} ] };
-  const [jobs, total, cos] = await Promise.all([
+  const [jobs, total, cos, all] = await Promise.all([
     db.job.findMany({ where, orderBy: sort === "sal" ? { salary: "desc" } : { createdAt: "desc" }, skip: (page - 1) * PER, take: PER }),
     db.job.count({ where }),
-    db.job.groupBy({ where: { status: "APPROVED", ...live }, by: ["company"], _count: { _all: true }, orderBy: { _count: { company: "desc" } }, take: 8 }) ]);
+    db.job.groupBy({ where: { status: "APPROVED", ...live }, by: ["company"], _count: { _all: true }, orderBy: { _count: { company: "desc" } }, take: 8 }),
+    db.job.count({ where: { status: "APPROVED", ...live } }) ]);
   const mname = m => (tr(lang, "m_" + m) === "m_" + m ? m : tr(lang, "m_" + m));
   const pageHref = p => { const s = new URLSearchParams(); for (const [k, v] of Object.entries(sp)) { if (k === "page") continue; [].concat(v).forEach(x => s.append(k, x)); } s.set("page", p); return "/?" + s.toString(); };
   return (<>
     <section className="hero"><div className="w"><h1>{t("h1")}</h1>
+      <p className="sub">{all > 0 ? `${all} ${t("explore")}` : t("sub0")}</p>
       <form className="s"><input name="q" defaultValue={q} placeholder={t("ph_q")} />
         <select name="exp" defaultValue={exp}><option value="">{t("exp_any")}</option><option value="0">{t("exp0")}</option><option value="2">{t("exp2")}</option><option value="5">{t("exp5")}</option><option value="10">{t("exp10")}</option></select>
         <input name="loc" defaultValue={loc} placeholder={t("ph_loc")} /><button className="btn f">{t("search")}</button></form>
-      <div className="chips">{CATS.map(([k, l]) => <Link key={k} className="chip" href={`/?q=${k}`}>{t(l)}</Link>)}</div>
+      <div className="tiles">{TILES.map(([h, ic, k]) => <Link key={k} className="tile" href={h}><i>{ic}</i><span>{t(k)}</span><b>›</b></Link>)}</div>
     </div></section>
     <main className="w">
-      {cos.length > 0 && <><h2>{t("top_co")}</h2><div className="cos">{cos.map(c => <Link key={c.company} className="co" href={`/company/${encodeURIComponent(c.company)}`}><i>{c.company[0].toUpperCase()}</i><b>{c.company}</b><small>{c._count._all} {t("openings")}</small></Link>)}</div></>}
-      <h2>{t("jobs")} ({total})</h2>
+      {cos.length > 0 && <><h2 id="companies">{t("top_co")}</h2><div className="cos">{cos.map(c => <Link key={c.company} className="co" href={`/company/${encodeURIComponent(c.company)}`}><i>{c.company[0].toUpperCase()}</i><b>{c.company}</b><small>{c._count._all} {t("openings")}</small></Link>)}</div></>}
+      <h2 id="jobs">{t("jobs")} ({total})</h2>
       <div className="lay">
         <form className="side"><input type="hidden" name="q" value={q} /><input type="hidden" name="loc" value={loc} /><input type="hidden" name="exp" value={exp} />
           <h4>{t("f_mode")}</h4>{["OFFICE", "REMOTE", "HYBRID"].map(m => <label key={m}><input type="checkbox" name="mode" value={m} defaultChecked={modes.includes(m)} />{t("m_" + m)}</label>)}
