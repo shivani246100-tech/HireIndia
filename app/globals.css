@@ -38,3 +38,6 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px
 footer{background:var(--pri2);color:#bcd5ca;margin-top:44px;padding:24px 0;font-size:13px}
 footer .w{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}footer a:hover{color:#fff}
 @media(max-width:760px){.lay{grid-template-columns:1fr}.s input,.s select{border-right:0;border-bottom:1px solid var(--line)}}
+body{min-height:100vh;display:flex;flex-direction:column}body>main,body>section,body>div:not(.w){flex:0 0 auto}
+body>main{flex:1 0 auto}footer{margin-top:auto}
+.s select{border:0;border-right:1px solid var(--line)!important;background:#fff;outline:0}
