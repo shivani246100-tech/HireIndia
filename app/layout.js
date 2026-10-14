@@ -13,7 +13,7 @@ export const metadata = {
   description: "Search jobs by skill, city and experience. Free for job seekers. | स्किल, शहर और अनुभव से नौकरी खोजें, उम्मीदवारों के लिए मुफ़्त।",
   applicationName: "HireIndia",
   openGraph: { type: "website", siteName: "HireIndia", title: "HireIndia – Jobs in India", description: "Find your next job on HireIndia." } };
-export const viewport = { themeColor: "#0b4f3a", width: "device-width", initialScale: 1 };
+export const viewport = { themeColor: "#f5f3ec", width: "device-width", initialScale: 1 };
 const F = {
   hi: { about: "हमारे बारे में", contact: "संपर्क करें", privacy: "प्राइवेसी पॉलिसी", terms: "नियम व शर्तें", refund: "रिफंड पॉलिसी" },
   en: { about: "About us", contact: "Contact us", privacy: "Privacy Policy", terms: "Terms & Conditions", refund: "Refund Policy" } };
@@ -34,6 +34,7 @@ export default async function L({ children }) {
       <Link href="/employers">{t("emp")}</Link>
     </div></header>{children}
     <footer><div className="w"><span>© HireIndia</span>
-      {Object.keys(F[lang]).map(k => <Link key={k} href={`/info/${k}`}>{F[lang][k]}</Link>)}</div></footer>
+      {Object.keys(F[lang]).map(k => <Link key={k} href={`/info/${k}`}>{F[lang][k]}</Link>)}
+      <Link href="/download">📲 {t("nav_app")}</Link></div></footer>
   </LangProvider></body></html>);
 }
