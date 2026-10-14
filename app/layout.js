@@ -24,8 +24,9 @@ export default async function L({ children }) {
   return (<html lang={lang}><body><LangProvider lang={lang}><SW />
     <header><div className="w"><Link href="/" className="logo">Hire<b>India</b></Link><span className="sp" />
       <Toggle />
-      {u?.role === "ADMIN" && <Link href="/admin">Admin</Link>}
-      <Link href="/employer">{t("emp")}</Link>
+      {u?.role === "ADMIN" && <><Link href="/admin">Admin</Link><Link href="/admin/leads">Leads</Link></>}
+      <Link href="/employers">{t("emp")}</Link>
+      {u?.role === "EMPLOYER" && <Link href="/pricing">{t("nav_plans")}</Link>}
       {(u?.role === "EMPLOYER" || u?.role === "ADMIN") && <Link href="/search">{t("find_t")}</Link>}
       {u?.role === "EMPLOYER" && <Link href="/dashboard">{t("nav_dash")}</Link>}
       {u && <Link href="/profile">{t("nav_prof")}</Link>}
