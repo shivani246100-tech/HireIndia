@@ -25,5 +25,6 @@ export default function Employer() {
       <select name="mode"><option value="OFFICE">{t("m_OFFICE")}</option><option value="REMOTE">{t("m_REMOTE")}</option><option value="HYBRID">{t("m_HYBRID")}</option></select>
       <input name="minExp" type="number" placeholder={t("f_exp")} /><input name="salary" type="number" placeholder={t("f_sal")} required />
       <input name="skills" placeholder={t("f_skills")} required /><textarea name="description" rows={4} placeholder={t("f_desc")} required />
+      <label style={{ color: "var(--mut)" }}>{t("last_date")}</label><input name="expiresAt" type="date" />
       {msg && <div>{t(msg)}</div>}<button className="btn f">{t("post")}</button></form></div>);
 }
