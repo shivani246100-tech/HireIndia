@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useT } from "@/components/Lang";
 export default function Login() {
   const t = useT(), [reg, setReg] = useState(false), [err, setErr] = useState("");
+  useEffect(() => { if (new URLSearchParams(location.search).get("reg")) setReg(true); }, []);
   async function go(e) {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(e.target));
