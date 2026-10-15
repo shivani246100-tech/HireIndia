@@ -24,6 +24,7 @@ model User {
   education  String?
   experience String?
   visible    Boolean       @default(false)
+  suspended  Boolean       @default(false)
   jobs       Job[]
   apps       Application[]
   saved      SavedJob[]
@@ -103,5 +104,14 @@ model Lead {
   email     String
   kind      String   @default("COMPANY")
   org       String?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  target    String
+  note      String?
   createdAt DateTime @default(now())
 }
