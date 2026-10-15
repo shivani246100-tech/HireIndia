@@ -7,7 +7,7 @@ import { tr } from "@/lib/i18n";
 import { planInfo } from "@/lib/plans";
 export const dynamic = "force-dynamic";
 export default async function Search({ searchParams: sp }) {
-  const t = k => tr(cookies().get("lang")?.value === "en" ? "en" : "hi", k);
+  const t = k => tr(cookies().get("lang")?.value === "hi" ? "hi" : "en", k);
   const u = await getUser();
   if (!u) redirect("/login");
   const ok = u.role === "ADMIN" || (u.role === "EMPLOYER" && planInfo(u).active);
@@ -27,7 +27,7 @@ export default async function Search({ searchParams: sp }) {
       <div className="m"><span>📍 {c.city || "-"}</span><span>🎓 {c.education || "-"}</span><span>📞 {c.phone || "-"}</span><span>✉️ {c.email}</span></div>
       <div className="t">{(c.skills || "").split(",").filter(Boolean).map(s => <span key={s}>{s.trim()}</span>)}</div>
       {c.experience && <p>{c.experience}</p>}
-      {c.resumeUrl && <p><a href={c.resumeUrl} target="_blank" style={{ color: "var(--pri)" }}>📄 {t("view_resume")}</a></p>}</div>)}
+      {c.resumeUrl && <p><a href={`/api/resume/${c.id}`} target="_blank" style={{ color: "var(--pri)" }}>📄 {t("view_resume")}</a></p>}</div>)}
     <div style={{ display: "flex", gap: 10, justifyContent: "center", margin: "20px 0" }}>
       {page > 1 && <Link className="btn" href={href(page - 1)}>← {t("prev")}</Link>}
       {page * PER < total && <Link className="btn" href={href(page + 1)}>{t("next")} →</Link>}</div></main>);
