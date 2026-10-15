@@ -18,6 +18,7 @@ export async function POST(req) {
   }
   const u = await db.user.findUnique({ where: { email } });
   if (!u || !(await bcrypt.compare(b.password || "", u.password))) return Response.json({ error: "e_bad" });
+  if (u.suspended) return Response.json({ error: "e_susp" });
   await setSession(u); return Response.json({ ok: true });
 }
 export async function DELETE() { cookies().delete("s"); return Response.json({ ok: true }); }
