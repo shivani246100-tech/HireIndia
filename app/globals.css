@@ -64,3 +64,6 @@ body{top:0!important}
 iframe.skiptranslate,.goog-te-banner-frame,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
 #gt_el{position:absolute;left:-9999px;height:0;overflow:hidden}
 .goog-text-highlight{background:none!important;box-shadow:none!important}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat b{display:block;font-size:28px;color:var(--pri);font-family:Georgia,serif}.stat span{color:var(--mut);font-size:13px}
